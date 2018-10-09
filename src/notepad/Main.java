@@ -1,14 +1,21 @@
 package notepad;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Scanner;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
-    public final static String DATE_FORMAT = "dd.MM.yyyy":
+    public final static String DATE_FORMAT = "dd.MM.yyyy";
     public final  static DateTimeFormatter DATE_FORMATTER
             =DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+    public final static String TIME_FORMAT = "mm,HH";
+    public final static DateTimeFormatter TIME_FORMATTER
+    =DateTimeFormatter.ofPattern(TIME_FORMAT);
+
 
     private static Scanner scanner = new Scanner(System.in);
     private static List<Record> recordList = new ArrayList<>();
@@ -164,10 +171,14 @@ public class Main {
 
     public static LocalDate askDate() {
         String d = askString();
-LocalDate = LocalDate.parse(d, DATE_FORMATTER);
-
-
-
+        LocalDate date = LocalDate.parse(d, DATE_FORMATTER);
+        return date;
     }
+
+        public static LocalTime askTime() {
+            String t = askString();
+            LocalTime time = LocalTime.parse(t, TIME_FORMATTER);
+            return time;
+        }
 
 }
