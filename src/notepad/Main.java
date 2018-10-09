@@ -16,6 +16,7 @@ public class Main {
             switch (cmd) {
                 case "createperson":
                 case "cp":
+
                     createPerson();
                     break;
                 case "createnote":
