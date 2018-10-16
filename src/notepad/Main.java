@@ -9,16 +9,16 @@ import java.util.concurrent.TimeoutException;
 
 public class Main {
     public final static String DATE_FORMAT = "dd.MM.yyyy";
-    public final  static DateTimeFormatter DATE_FORMATTER
-            =DateTimeFormatter.ofPattern(DATE_FORMAT);
+    public final static DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     public final static String TIME_FORMAT = "mm,HH";
     public final static DateTimeFormatter TIME_FORMATTER
-    =DateTimeFormatter.ofPattern(TIME_FORMAT);
+            = DateTimeFormatter.ofPattern(TIME_FORMAT);
 
 
     private static Scanner scanner = new Scanner(System.in);
-    private static List<Record> recordList = new ArrayList<>();
+    private static Map<Integer, Record> recordList = new LinkedHashMap<>();
 
     public static void main(String[] args) {
         while (true) {
@@ -27,7 +27,6 @@ public class Main {
             switch (cmd) {
                 case "createperson":
                 case "cp":
-
                     createPerson();
                     break;
                 case "createnote":
@@ -38,6 +37,10 @@ public class Main {
                 case "cr":
                     createReminder();
                     break;
+                case "createalarm":
+                case "ca":
+                    createAlarm();
+                    break;
                 case "list":
                     printList();
                     break;
@@ -46,6 +49,9 @@ public class Main {
                     break;
                 case "find":
                     find();
+                    break;
+                case "show":
+                    showById();
                     break;
                 case "help":
                     showHelp();
@@ -58,6 +64,22 @@ public class Main {
         }
     }
 
+    private static void createAlarm() {
+        var alarm = new Alarm();
+        addRecord(alarm);
+    }
+
+    private static void showById() {
+
+        System.out.println( "what you need the id :__ ");
+        int id = askInt();
+        Record record = recordList.get(id);
+
+        System.out.printf("Your taken id ", record);
+
+
+    }
+
     private static void createReminder() {
         var reminder = new Reminder();
         addRecord(reminder);
@@ -66,7 +88,7 @@ public class Main {
     private static void find() {
         System.out.println("Find what?");
         String str = askString();
-        for (Record r : recordList) {
+        for (Record r : recordList.values()) {  //
             if (r.hasSubstring(str)) {
                 System.out.println(r);
             }
@@ -79,23 +101,36 @@ public class Main {
     }
 
     private static void showHelp() {
-        System.out.println("createPerson - bla bla bla bla");
-        System.out.println("remove - bla bla bla bla");
-        System.out.println("bla bla bla bla");
-        System.out.println("bla bla bla bla");
-    }
+        System.out.println("# createperson . cp");
+        System.out.println("# createnote . cn");
+        System.out.println("# createreminder . cr");
+        System.out.println("# createalarm . ca");
+        System.out.println("# list");
+        System.out.println("# remove");
+        System.out.println("# find");
+        System.out.println("# show");
+        System.out.println("# help");
+        System.out.println("# exit");
+        System.out.println();
+  }
 
     private static void removeById() {
         System.out.println("Enter ID to remove:");
         int id = askInt();
-        for (int i = 0; i < recordList.size(); i++) {
-            Record p = recordList.get(i);
-            if (id == p.getId()) {
-                recordList.remove(i);
-                break;
-            }
-        }
+        recordList.remove(id);
+
+                    //        for (int i = 0; i < recordList.size(); i++) {
+                    //            Record p = recordList.get(i);
+                    //            if (id == p.getId()) {
+                    //                recordList.remove(i);
+                    //                break;
+                    //            }
+                    //        }
+
     }
+
+
+
 
     private static int askInt() {
         while (true) {
@@ -110,7 +145,7 @@ public class Main {
 
 
     private static void printList() {
-        for (Record p : recordList) {
+        for (Record p : recordList.values()) { //po znacenijam asociativnim spiskam
             System.out.println(p);
         }
     }
@@ -122,7 +157,7 @@ public class Main {
 
     private static void addRecord(Record p) {
         p.askQuestions();
-        recordList.add(p);
+        recordList.put(p.getId(), p);
         System.out.println("You have created this record:");
         System.out.println(p);
     }
@@ -175,10 +210,10 @@ public class Main {
         return date;
     }
 
-        public static LocalTime askTime() {
-            String t = askString();
-            LocalTime time = LocalTime.parse(t, TIME_FORMATTER);
-            return time;
-        }
+    public static LocalTime askTime() {
+        String t = askString();
+        LocalTime time = LocalTime.parse(t, TIME_FORMATTER);
+        return time;
+    }
 
 }
