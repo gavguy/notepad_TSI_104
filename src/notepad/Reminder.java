@@ -3,7 +3,7 @@ package notepad;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Reminder extends Alarm {
+public class Reminder extends Alarm implements Expirable { // ne kakoj roli ne iraet - dekor- on uze prinadlezit ot alarma
     private LocalDate date;
 
 
@@ -12,6 +12,7 @@ public class Reminder extends Alarm {
         super.askQuestions();
         System.out.println("Enter reminder date");
         date = Main.askDate();
+
 
     }
 
@@ -30,7 +31,12 @@ public class Reminder extends Alarm {
         this.date = date;
     }
 
+    @Override
+    public boolean isExpired() {
+        LocalTime now= LocalTime.now();
+        return now.isAfter(time);
 
+    }
 
     @Override
     public String toString() {

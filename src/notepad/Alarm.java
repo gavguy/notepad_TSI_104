@@ -3,7 +3,7 @@ package notepad;
 
 import java.time.LocalTime;
 
-public class Alarm extends Note {
+public class Alarm extends Note implements Expirable {  // implimentit toest mnozestvenoje na sledovanije, rashirjaet
     private LocalTime time;
 
     @Override
@@ -34,5 +34,10 @@ public class Alarm extends Note {
                 "text='" + getText() + '\'' +
                 ", time='" + time.format(Main.TIME_FORMATTER) + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean isExpired() {
+        return true;
     }
 }

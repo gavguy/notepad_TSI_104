@@ -41,6 +41,10 @@ public class Main {
                 case "ca":
                     createAlarm();
                     break;
+                case "expired":
+                case "ex":
+                    showExpirable();
+                    break;
                 case "list":
                     printList();
                     break;
@@ -64,6 +68,17 @@ public class Main {
         }
     }
 
+    private static void showExpirable() {
+        for (Record r : recordList.values()) {
+            if (r instanceof Expirable) {
+                Expirable e = (Expirable) r; // ja uveren sto eto tot tip- prinuditelno
+                if (e.isExpired()) {
+                    System.out.println(r);
+                }
+            }
+        }
+    }
+
     private static void createAlarm() {
         var alarm = new Alarm();
         addRecord(alarm);
@@ -71,7 +86,7 @@ public class Main {
 
     private static void showById() {
 
-        System.out.println( "what you need the id :__ ");
+        System.out.println("what you need the id :__ ");
         int id = askInt();
         Record record = recordList.get(id);
 
@@ -111,25 +126,23 @@ public class Main {
         System.out.println("# show");
         System.out.println("# help");
         System.out.println("# exit");
-        System.out.println();
-  }
+        System.out.println("createreminder . cr");
+    }
 
     private static void removeById() {
         System.out.println("Enter ID to remove:");
         int id = askInt();
         recordList.remove(id);
 
-                    //        for (int i = 0; i < recordList.size(); i++) {
-                    //            Record p = recordList.get(i);
-                    //            if (id == p.getId()) {
-                    //                recordList.remove(i);
-                    //                break;
-                    //            }
-                    //        }
+        //        for (int i = 0; i < recordList.size(); i++) {
+        //            Record p = recordList.get(i);
+        //            if (id == p.getId()) {
+        //                recordList.remove(i);
+        //                break;
+        //            }
+        //        }
 
     }
-
-
 
 
     private static int askInt() {
