@@ -38,6 +38,8 @@ public class Alarm extends Note implements Expirable {  // implimentit toest mno
 
     @Override
     public boolean isExpired() {
-        return true;
+        LocalTime now = LocalTime.now();
+//        return time.isBefore(now);
+        return now.isAfter(time);
     }
 }

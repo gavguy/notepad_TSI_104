@@ -1,6 +1,7 @@
 package notepad;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Reminder extends Alarm implements Expirable { // ne kakoj roli ne iraet - dekor- on uze prinadlezit ot alarma
@@ -33,8 +34,10 @@ public class Reminder extends Alarm implements Expirable { // ne kakoj roli ne i
 
     @Override
     public boolean isExpired() {
-        LocalTime now= LocalTime.now();
-        return now.isAfter(time);
+        LocalTime time = getTime();
+        LocalDateTime dt = LocalDateTime.of(date, time);
+        LocalDateTime now = LocalDateTime.now();
+        return now.isAfter(dt);
 
     }
 
